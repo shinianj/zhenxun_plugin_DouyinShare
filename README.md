@@ -8,7 +8,8 @@
 
 该插件采用的是自动获取抖音分享的网站链接 例如：
 
-4.87 sRx:/ 复制打开抖音，看看【睡不醒の羔羊的作品】【𝓛𝔂𝓬𝓸𝓻𝓲𝓼 𝓡𝓮𝓬𝓸𝓲𝓵】超"A"的天才骇客... https://v.douyin.com/joKmaXr/
+![I`)71`(BY`E9X@EBRKS9 RT](https://user-images.githubusercontent.com/105840558/188143113-63a1b31d-8653-4412-a04e-82e2289e7676.png)
+
 
 发送这种分享消息，bot将会自动进行解析并合并转发消息
 
