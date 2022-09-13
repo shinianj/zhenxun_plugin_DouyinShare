@@ -32,7 +32,7 @@ __plugin_type__ = ("群内功能",)
 #     )
 
 head = "https://api.oick.cn/douyin/api.php?url="
-sv = on_message(priority=5,block= True)
+sv = on_message(priority=15,block= True)
 #save = Config.get_config('DY_SHARE',"DEFAULT_DY_SHARE_SAVE",'http')
 
 #此处为废弃的自动下载方法
