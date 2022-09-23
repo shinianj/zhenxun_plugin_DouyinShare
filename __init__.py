@@ -31,7 +31,7 @@ __plugin_type__ = ("群内功能",)
 #         default_value='http',
 #     )
 
-head = "https://api.oick.cn/douyin/api.php?url="
+head = "https://api.nxvav.cn/api/jiexi/?url="
 sv = on_message(priority=15,block= True)
 #save = Config.get_config('DY_SHARE',"DEFAULT_DY_SHARE_SAVE",'http')
 
@@ -90,7 +90,7 @@ def download_from_url(url, dst):
 async def sv_handle(bot: Bot,event: GroupMessageEvent, state: T_State):
     bot = get_bot()
     url = event.get_plaintext()
-    flag = re.match('.*?复制打开抖音.*?',str(url))
+    flag = re.match('.*v.douyin.com.*?',str(url))
     if flag != None:
         index = url.find('https:')
         url = url[index:]
@@ -99,13 +99,13 @@ async def sv_handle(bot: Bot,event: GroupMessageEvent, state: T_State):
         res = requests.get(url,timeout= 15)
         if res.status_code == 200:
             res = res.json()
-            name ="标题 ：" +res['title']
-            author = "作者 ：" +res['nickname']
+            name ="标题 ：" +res['data']['title']
+            author = "作者 ：" +res['data']['author']
             msgs = []
             msgs.append(name)
             msgs.append(author)
-            name = res['title']
-            name  = name + '.mp4'
+            # name = res['data']['title']
+            # name  = name + '.mp4'
             #path = Path(TEMP_PATH)/name
             # if save == 'file':
             #     try:
@@ -113,8 +113,11 @@ async def sv_handle(bot: Bot,event: GroupMessageEvent, state: T_State):
             #             pass
             #     except FileNotFoundError:
             #         logger.info("文件已经存在,无需下载")
-            msgs.append(Message(MessageSegment.video(res['play'])))
-            msgs.append('直链 ：'+res['play'])
+            msgs.append(Message(MessageSegment.image(res['data']['cover'])))
+            msgs.append(Message(MessageSegment.video(res['data']['url'])))
+            # result = MessageSegment.record(res['data']['music']['url'])
+            # msgs.append((result))
+            msgs.append('直链 ：'+res['data']['url'])
             # img =  str((Path(IMAGE_PATH)/"ark" / random.choice(os.listdir(Path(IMAGE_PATH)/"ark"))).absolute())
             # cmd = f"""ffmpeg -r 5 -loop 1 -i {img} -i {res['play']} -shortest -preset ultrafast -vcodec libx264 {TEMP_PATH}/{name} -y """
             # subprocess.Popen(cmd, shell=True)
