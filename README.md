@@ -7,6 +7,7 @@
 **注：这是真寻bot的拓展序列插件，请在使用时确保自己使用的是最新版的真寻以防止出现莫名的bug导致各位都头大**
 
 该插件采用的是自动获取抖音分享的网站链接 例如：
+
 ![`ONARDH)DOIYNO7%GK@DA49](https://user-images.githubusercontent.com/105840558/192290090-3b5d891d-850c-4ea8-acab-2823844972dc.png)
 
 
