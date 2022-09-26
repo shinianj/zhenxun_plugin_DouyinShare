@@ -1,6 +1,4 @@
-
 import os
-
 import requests
 import os
 import random
@@ -161,16 +159,16 @@ async def al_video(orurl,laiyuan:str,url=None) -> str:
             author = res['data']['author']
             cover = res['data']['cover']
             r = requests.get(cover,headers=getHeaders())
-            with open(f'{TEMP_PATH}/douyin_cover','wb') as f:
+            with open(f'{TEMP_PATH}/douyin_cover.png','wb') as f:
                 f.write(r.content)
-            cover_ = BuildImage(0,0,background=f'{TEMP_PATH}\douyin_cover')
+            cover_ = BuildImage(0,0,background=f'{TEMP_PATH}/douyin_cover.png')
             cover_w = cover_.w
             cover_h = cover_.h
             author_cover = res['data']['avatar']
             r = requests.get(author_cover,headers=getHeaders())
-            with open(f'{TEMP_PATH}/douyin_author_cover','wb') as f:
+            with open(f'{TEMP_PATH}/douyin_author_cover.png','wb') as f:
                 f.write(r.content)
-            author_cover_ = BuildImage(0,0,background=f'{TEMP_PATH}\douyin_author_cover')
+            author_cover_ = BuildImage(0,0,background=f'{TEMP_PATH}/douyin_author_cover.png')
             await author_cover_.acircle()
             await author_cover_.aresize(w=40,h=40)
             author_cover_w = author_cover_.w
@@ -200,17 +198,17 @@ async def al_video(orurl,laiyuan:str,url=None) -> str:
             fan = str(author_data[1]).split('class="EobDY8fd">')[-1].split('<')[0]
 
             #获取logo长宽
-            logo = BuildImage(0,0,background=(os.path.join(os.path.dirname(__file__), f'res\douyin_logo.png')))
+            logo = BuildImage(0,0,background=(os.path.join(os.path.dirname(__file__), f'res/douyin_logo.png')))
             logo_w = logo.w
             logo_h = logo.h
             #获取点赞，评论，收藏logo长宽
-            dz = BuildImage(0,0,background=(os.path.join(os.path.dirname(__file__), f'res\douyin_dianzan.png')))
+            dz = BuildImage(0,0,background=(os.path.join(os.path.dirname(__file__), f'res/douyin_dianzan.png')))
             dz_w = dz.w
             dz_h = dz.h
-            pl = BuildImage(0,0,background=(os.path.join(os.path.dirname(__file__), f'res\douyin_pinglun.png')))
+            pl = BuildImage(0,0,background=(os.path.join(os.path.dirname(__file__), f'res/douyin_pinglun.png')))
             pl_w = dz.w
             pl_h = dz.h
-            sc = BuildImage(0,0,background=(os.path.join(os.path.dirname(__file__), f'res\douyin_shoucang.png')))
+            sc = BuildImage(0,0,background=(os.path.join(os.path.dirname(__file__), f'res/douyin_shoucang.png')))
             sc_w = dz.w
             sc_h = dz.h
 
@@ -255,6 +253,5 @@ async def al_video(orurl,laiyuan:str,url=None) -> str:
     #     s =requests.Session()
     #     r = s.post(orurl,headers=getHeaders())
     #     html = r.text
-
 
 
