@@ -1,18 +1,21 @@
 import os
 from utils.message_builder import custom_forward_msg
 import re
+from bs4 import BeautifulSoup
 import requests
 from tqdm import tqdm
+from utils.message_builder import image
 import os
 from urllib.request import urlopen
 from nonebot import on_message
 from nonebot.plugin.plugin import PluginMetadata
 from utils.utils import get_bot
 from services.log import logger
-from configs.config import Config
 from nonebot.rule import T_State
 from nonebot.adapters.onebot.v11 import  GroupMessageEvent ,Message,MessageSegment,Bot
 import requests
+from .model import al_video,getHeaders
+
 
 __plugin_meta__ = PluginMetadata("抖音分享",'抖音分享','抖音分享',
     extra={
@@ -31,7 +34,6 @@ __plugin_type__ = ("群内功能",)
 #         default_value='http',
 #     )
 
-head = "https://api.nxvav.cn/api/jiexi/?url="
 sv = on_message(priority=15,block= True)
 #save = Config.get_config('DY_SHARE',"DEFAULT_DY_SHARE_SAVE",'http')
 
@@ -90,11 +92,14 @@ def download_from_url(url, dst):
 async def sv_handle(bot: Bot,event: GroupMessageEvent, state: T_State):
     bot = get_bot()
     url = event.get_plaintext()
-    flag = re.match('.*v.douyin.com.*?',str(url))
-    if flag != None:
+    flag1 = re.match('.*v.douyin.com.*?',str(url))
+    flag2 =  re.match(r"(b23.tv)|(bili(22|23|33|2233).cn)|(.bilibili.com)|(^(av|cv)(\d+))|(^BV([a-zA-Z0-9]{10})+)|",str(url))
+    flag3 =  re.match(r"(\[\[QQ小程序\]哔哩哔哩\])|(QQ小程序&amp;#93;哔哩哔哩)|(QQ小程序&#93;哔哩哔哩)",str(url))
+    if flag1 != None :
+        head = "https://api.nxvav.cn/api/jiexi/?url="
         index = url.find('https:')
-        url = url[index:]
-        url = head + url
+        orurl = url[index:]#原视频链接
+        url = head + orurl
         res = {}
         res = requests.get(url,timeout= 15)
         if res.status_code == 200:
@@ -102,6 +107,7 @@ async def sv_handle(bot: Bot,event: GroupMessageEvent, state: T_State):
             name ="标题 ：" +res['data']['title']
             author = "作者 ：" +res['data']['author']
             msgs = []
+            await sv.send(image(b64 =await al_video(orurl,'douyin',url)))
             msgs.append(name)
             msgs.append(author)
             # name = res['data']['title']
@@ -117,7 +123,9 @@ async def sv_handle(bot: Bot,event: GroupMessageEvent, state: T_State):
             msgs.append(Message(MessageSegment.video(res['data']['url'])))
             # result = MessageSegment.record(res['data']['music']['url'])
             # msgs.append((result))
+            #msgs.append(image(b64 =await al_video(orurl,'douyin',url)))
             msgs.append('直链 ：'+res['data']['url'])
+            msgs.append('作者制作不易，喜欢的话请去视频点个赞吧~')
             # img =  str((Path(IMAGE_PATH)/"ark" / random.choice(os.listdir(Path(IMAGE_PATH)/"ark"))).absolute())
             # cmd = f"""ffmpeg -r 5 -loop 1 -i {img} -i {res['play']} -shortest -preset ultrafast -vcodec libx264 {TEMP_PATH}/{name} -y """
             # subprocess.Popen(cmd, shell=True)
