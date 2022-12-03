@@ -107,7 +107,8 @@ async def sv_handle(bot: Bot,event: GroupMessageEvent, state: T_State):
             name ="标题 ：" +res['data']['title']
             author = "作者 ：" +res['data']['author']
             msgs = []
-            await sv.send(image(b64 =await al_video(orurl,'douyin',url)))
+            if await al_video(orurl,'douyin',url) != None:
+                await sv.send(image(b64 =await al_video(orurl,'douyin',url)))
             msgs.append(name)
             msgs.append(author)
             # name = res['data']['title']
