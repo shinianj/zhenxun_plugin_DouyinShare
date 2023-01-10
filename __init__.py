@@ -103,7 +103,7 @@ async def sv_handle(bot: Bot,event: GroupMessageEvent, state: T_State):
         res = {}
         res = requests.get(url,timeout= 15)
         res = res.json()
-        if res.['code'] != 201:
+        if res['code'] != 201:
             name ="标题 ：" +res['data']['title']
             author = "作者 ：" +res['data']['author']
             msgs = []
