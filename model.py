@@ -246,8 +246,9 @@ async def al_video(orurl,laiyuan:str,url=None) -> str:
 
             return A.pic2bs4()
         except IndexError as e:
-            logger.info('抖音解析尝试重连……')
-            await al_video(orurl,laiyuan,url)
+            return None
+            # logger.info('抖音解析尝试重连……')
+            # await al_video(orurl,laiyuan,url)
 
     # if laiyuan == 'bili':
     #     res = requests.get(orurl)
