@@ -3,7 +3,7 @@ from utils.message_builder import custom_forward_msg
 import re
 from bs4 import BeautifulSoup
 import requests
-from tqdm import tqdm
+#from tqdm import tqdm
 from utils.message_builder import image
 import os
 from urllib.request import urlopen
@@ -38,55 +38,55 @@ sv = on_message(priority=15,block= True)
 #save = Config.get_config('DY_SHARE',"DEFAULT_DY_SHARE_SAVE",'http')
 
 #此处为废弃的自动下载方法
-def download_from_url(url, dst):
-    """
-    @param url: 下载网址
-    @param dst: 文件自定义名称
-    :return: bool
-    """
-    # 获取文件长度
-    try:
-        file_size = int(urlopen(url).info().get('Content-Length', -1))
-    except Exception as e:
-        logger.info(e)
-        logger.info("错误，访问url: %s 异常" % url)
-        return False
+# def download_from_url(url, dst):
+#     """
+#     @param url: 下载网址
+#     @param dst: 文件自定义名称
+#     :return: bool
+#     """
+#     # 获取文件长度
+#     try:
+#         file_size = int(urlopen(url).info().get('Content-Length', -1))
+#     except Exception as e:
+#         logger.info(e)
+#         logger.info("错误，访问url: %s 异常" % url)
+#         return False
 
-    # print("file_size",file_size)
-    # 判断本地文件存在时
-    if os.path.exists(os.path.join(os.path.dirname(__file__), f'/res/{dst}')):
-        # 获取文件大小
-        first_byte = os.path.getsize(dst)
-    else:
-        # 初始大小为0
-        first_byte = 0
+#     # print("file_size",file_size)
+#     # 判断本地文件存在时
+#     if os.path.exists(os.path.join(os.path.dirname(__file__), f'/res/{dst}')):
+#         # 获取文件大小
+#         first_byte = os.path.getsize(dst)
+#     else:
+#         # 初始大小为0
+#         first_byte = 0
 
-    # 判断大小一致，表示本地文件存在
-    if first_byte >= file_size:
-        logger.info("文件已经存在,无需下载")
-        return True
+#     # 判断大小一致，表示本地文件存在
+#     if first_byte >= file_size:
+#         logger.info("文件已经存在,无需下载")
+#         return True
 
 
-    header = {"Range": "bytes=%s-%s" % (first_byte, file_size)}
+#     header = {"Range": "bytes=%s-%s" % (first_byte, file_size)}
 
-    pbar = tqdm(
-        total=file_size, initial=first_byte,
-        unit='B', unit_scale=True, desc=url.split('/')[-1])
+#     pbar = tqdm(
+#         total=file_size, initial=first_byte,
+#         unit='B', unit_scale=True, desc=url.split('/')[-1])
 
-    # 访问url进行下载
-    req = requests.get(url, headers=header, stream=True)
-    try:
-        with(os.path.join(os.path.dirname(__file__), f'/res/{dst}'), 'ab')as f:
-            for chunk in req.iter_content(chunk_size=1024):
-                if chunk:
-                    f.write(chunk)
-                    pbar.update(1024)
-    except Exception as e:
-        logger.info(e)
-        return False
+#     # 访问url进行下载
+#     req = requests.get(url, headers=header, stream=True)
+#     try:
+#         with(os.path.join(os.path.dirname(__file__), f'/res/{dst}'), 'ab')as f:
+#             for chunk in req.iter_content(chunk_size=1024):
+#                 if chunk:
+#                     f.write(chunk)
+#                     pbar.update(1024)
+#     except Exception as e:
+#         logger.info(e)
+#         return False
 
-    pbar.close()
-    return True
+#     pbar.close()
+#     return True
 
 @sv.handle()
 async def sv_handle(bot: Bot,event: GroupMessageEvent, state: T_State):
