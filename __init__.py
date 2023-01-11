@@ -7,7 +7,7 @@ import requests
 from utils.message_builder import image
 import os
 from urllib.request import urlopen
-from nonebot import on_message
+from nonebot import on_message,on_regex
 from nonebot.plugin.plugin import PluginMetadata
 from utils.utils import get_bot
 from services.log import logger
@@ -34,7 +34,7 @@ __plugin_type__ = ("群内功能",)
 #         default_value='http',
 #     )
 
-sv = on_message(priority=15,block= True)
+sv = on_message(priority=15,block= False)
 #save = Config.get_config('DY_SHARE',"DEFAULT_DY_SHARE_SAVE",'http')
 
 #此处为废弃的自动下载方法
