@@ -151,6 +151,8 @@ async def al_video(orurl,laiyuan:str,url=None) -> str:
             res = requests.get(url,timeout= 15)
             res = res.json()
             name = res['data']['title']
+            if name == None:
+                return None
             if '"' in name:
                 name = str(name).replace('"',' ')
             if ':' in name:
